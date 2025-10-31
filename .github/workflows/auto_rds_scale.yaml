@@ -2,7 +2,7 @@ name: Automate Scale AWS RDS Instance
 
 on:
   schedule:
-    - cron: "35 20 * * 5"
+    - cron: "42 20 * * 5"
     - cron: "00 21 * * 5"  
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
       matrix:
         schedule: 
           - name: "rds_scale"
-            cron: "30 20 * * 5"
+            cron: "42 20 * * 5"
             value: 0
           - name: "rds_scale"
             cron: "00 21 * * 5"
