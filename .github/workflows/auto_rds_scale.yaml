@@ -23,7 +23,7 @@ jobs:
         with:
           aws-access-key-id: AKIASBWVINQQWVCC4WEL
           aws-secret-access-key: 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
-          aws-region: us-west-1
+          aws-region: us-east-1
 
       - name: Auto Scale RDS instance
         if: ${{ matrix.schedule.value == 0 }}
