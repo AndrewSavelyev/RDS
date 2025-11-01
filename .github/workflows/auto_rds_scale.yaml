@@ -2,10 +2,8 @@ name: Automate Scale AWS RDS Instance
 
 on:
   schedule:
-    - cron: "55 23 * * 5"
-    - cron: "20 0 * * 6"  
-    - cron: "50 15 * * 6"
-    - cron: "10 16 * * 6"  
+    - cron: "50 15 * * 6"  
+    - cron: "20 16 * * 6"  
 
 jobs:
   auto-scale-rds:
@@ -14,12 +12,10 @@ jobs:
       matrix:
         schedule: 
           - name: "rds_scale"
-            cron: "55 23 * * 5"
             cron: "50 15 * * 6"
             value: 0
           - name: "rds_scale"
-            cron: "20 0 * * 6"
-            cron: "10 16 * * 6"
+            cron: "20 16 * * 6"
             value: 1
     steps:
       - name: Configure AWS credentials
