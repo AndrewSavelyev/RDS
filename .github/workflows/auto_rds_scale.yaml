@@ -26,7 +26,6 @@ jobs:
           aws-secret-access-key: wt7HPEiJdtfSJrH8SdhmYUZ8GOLkRLKxtyJuR01T
           aws-region: us-east-1
 
-
       - name: Scale down RDS instance
         #if: ${{ github.event.schedule == matrix.schedule.cron && matrix.schedule.value == 0 }}
         if ${{ github.event.schedule  == "30 23 * * 6" }}; then
