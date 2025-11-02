@@ -2,8 +2,8 @@ name: Automate Scale AWS RDS Instance
 
 on:
   schedule:
-    - cron: "15 17 * * 7"  
-    - cron: "15 18 * * 7"  
+    - cron: "15 17 * * 0"  
+    - cron: "15 18 * * 0"  
 
 jobs:
   auto-scale-rds:
@@ -12,10 +12,10 @@ jobs:
       matrix:
         schedule: 
           - name: "rds_scale"
-            cron: "15 17 * * 7"
+            cron: "15 17 * * 0"
             value: 0
           - name: "rds_scale"
-            cron: "15 18 * * 7"
+            cron: "15 18 * * 0"
             value: 1
 
     steps:
