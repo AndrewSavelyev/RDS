@@ -2,8 +2,8 @@ name: Automate Scale AWS RDS Instance
 
 on:
   schedule:
-    - cron: "00 19 * * 0"  
-    - cron: "30 19 * * 0"  
+    - cron: "00 22 * * 0"  
+    - cron: "30 22 * * 0"  
 
 jobs:
   auto-scale-rds:
@@ -12,10 +12,10 @@ jobs:
       matrix:
         schedule: 
           - name: "rds_scale"
-            cron: "00 19 * * 0"
+            cron: "00 22 * * 0"
             value: 0
           - name: "rds_scale"
-            cron: "30 19 * * 0"
+            cron: "30 22 * * 0"
             value: 1
 
     steps:
@@ -27,7 +27,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Scale down RDS instance
-        if: ${{ matrix.schedule.cron == "00 19 * * 0" && matrix.schedule.value == 0 }}
+        if: ${{ github.event.schedule == "00 22 * * 0" && matrix.schedule.value == 0 }}
         run: |
           echo "Scaling RDS instance down to db.t3.micro..."
           aws rds modify-db-instance \
@@ -37,7 +37,7 @@ jobs:
           echo "✅ Scale down operation triggered successfully."
       
       - name: Scale up RDS instance
-        if: ${{ matrix.schedule.cron == "30 19 * * 0" && matrix.schedule.value == 1 }}
+        if: ${{ github.event.schedule == "30 22 * * 0" && matrix.schedule.value == 1 }}
         run: |
           echo "Scaling RDS instance up to db.t4g.micro..."
           aws rds modify-db-instance \
