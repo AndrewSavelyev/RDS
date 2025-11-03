@@ -2,22 +2,11 @@ name: Automate Scale AWS RDS Instance
 
 on:
   schedule:
-    - cron: '05 10 * * 1'  
-    - cron: '30 10 * * 1'  
+    - cron: '55 10 * * 1'  
+    - cron: '20 11 * * 1'  
 
 jobs:
-  # auto-scale-rds:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       schedule: 
-  #         - name: "rds_scale"
-  #           cron: "05 9 * * 1"
-  #           value: 0
-  #         - name: "rds_scale"
-  #           cron: "30 9 * * 1"
-  #           value: 1
-  test_schedule:
+  auto_scale_rds:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials
@@ -28,7 +17,7 @@ jobs:
           aws-region: us-east-1
       
       - name: Scale down RDS instance
-        if: github.event.schedule == '05 10 * * 1'
+        if: github.event.schedule == '55 10 * * 1'
         run: |
           echo "Scaling RDS instance down to db.t3.micro..."
           aws rds modify-db-instance \
@@ -36,35 +25,14 @@ jobs:
             --db-instance-class db.t3.micro \
             --apply-immediately
           echo "✅ Scale down operation triggered successfully."
-
-      # - name: Scale down RDS instance
-      #   #if: ${{ github.event.schedule == "00 22 * * 0" && matrix.schedule.value == 0 }}
-      #   if: contains(github.event.schedule, "05 9 * * 1")
-      #   run: |
-      #     echo "Scaling RDS instance down to db.t3.micro..."
-      #     aws rds modify-db-instance \
-      #       --db-instance-identifier testdb \
-      #       --db-instance-class db.t3.micro \
-      #       --apply-immediately
-      #     echo "✅ Scale down operation triggered successfully."
-
+  
       - name: Scale up RDS instance
-        if: github.event.schedule == '30 10 * * 1'
+        if: github.event.schedule == '20 11 * * 1'
         run: |
-          echo "Scaling RDS instance down to db.t3.micro..."
+          echo "Scaling RDS instance up to db.t4g.micro..."
           aws rds modify-db-instance \
             --db-instance-identifier testdb \
-            --db-instance-class db.t3.micro \
+            --db-instance-class db.t4g.micro \
             --apply-immediately
-          echo "✅ Scale down operation triggered successfully."
+          echo "✅ Scale up operation triggered successfully."
       
-      # - name: Scale up RDS instance
-      #   #if: ${{ github.event.schedule == "30 22 * * 0" && matrix.schedule.value == 1 }}
-      #   if: contains(github.event.schedule, "30 9 * * 1")
-      #   run: |
-      #     echo "Scaling RDS instance up to db.t4g.micro..."
-      #     aws rds modify-db-instance \
-      #       --db-instance-identifier testdb \
-      #       --db-instance-class db.t4g.micro \
-      #       --apply-immediately
-      #     echo "✅ Scale up operation triggered successfully."
