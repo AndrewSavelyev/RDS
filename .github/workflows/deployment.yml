@@ -6,10 +6,10 @@ on:
         required: true
         default: 'main'
       environment:
-        description: 'Target environment (UAT or Prod)'
+        description: 'Target environment'
         required: true
         default: 'UAT'
         type: choice
         options:
-          - UAT
-          - Prod
+          - uat
+          - prod
