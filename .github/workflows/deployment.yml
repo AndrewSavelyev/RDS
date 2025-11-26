@@ -1,0 +1,10 @@
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: 'Branch to deploy from'
+        required: true
+        default: 'main'
