@@ -1,15 +1,52 @@
+name: Deploy Laravel App
+
+run-name: Deploy to ${{ github.event.inputs.environment || github.ref_name }}
+
 on:
+  push:
+    branches:
+      - dev
+      - main
+      - 'hotfix/*'
+      - 'release/*'
+
   workflow_dispatch:
     inputs:
-      branch:
-        description: 'Branch to deploy from'
-        required: true
-        default: 'main'
       environment:
-        description: 'Target environment'
+        description: "Target environment"
         required: true
-        default: 'UAT'
         type: choice
         options:
           - uat
           - prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    # ЛОГИКА:
+    # 1) Автоматически деплоим только если push и branch == dev
+    # 2) Если workflow_dispatch → всегда разрешаем (ручной запуск)
+    if: >
+      (
+        github.event_name == 'push' &&
+        startsWith(github.ref, 'refs/heads/dev')
+      ) ||
+      (
+        github.event_name == 'workflow_dispatch'
+      )
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine environment
+        id: env
+        run: |
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            # Ручной запуск → использовать выбранное окружение (uat|prod)
+            echo "env=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          else
+            # Автодеплой с dev → всегда на UAT
+            echo "env=uat" >> $GITHUB_OUTPUT
+          fi
