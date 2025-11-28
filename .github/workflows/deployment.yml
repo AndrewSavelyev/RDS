@@ -41,4 +41,4 @@ jobs:
 
       - name: Deploy
         run: |
-          echo "Deploying from dev brench to environment: ${{ steps.env.outputs.env }}"
+          echo "Deploying from release/1.0.2 brench to environment: ${{ steps.env.outputs.env }}"
