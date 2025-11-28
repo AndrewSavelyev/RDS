@@ -3,13 +3,6 @@ name: Deploy Laravel App
 run-name: Deploy to ${{ github.event.inputs.environment || github.ref_name }}
 
 on:
-  push:
-    branches:
-      - dev
-      - main
-      - 'hotfix/*'
-      - 'release/*'
-
   workflow_dispatch:
     inputs:
       environment:
