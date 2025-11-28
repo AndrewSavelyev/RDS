@@ -50,3 +50,7 @@ jobs:
             # Автодеплой с dev → всегда на UAT
             echo "env=uat" >> $GITHUB_OUTPUT
           fi
+
+      - name: Deploy
+        run: |
+          echo "Deploying to environment: ${{ steps.env.outputs.env }}"
