@@ -53,4 +53,4 @@ jobs:
 
       - name: Deploy
         run: |
-          echo "Deploying to environment: ${{ steps.env.outputs.env }}"
+          echo "Deploying from release/1.0.1 to environment: ${{ steps.env.outputs.env }}"
