@@ -23,15 +23,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    # ЛОГИКА:
-    # 1) Автоматически деплоим только если push и branch == dev
-    # 2) Если workflow_dispatch → всегда разрешаем (ручной запуск)
     if: >
       (
         github.event_name == 'push' &&
         startsWith(github.ref, 'refs/heads/dev')
-      ) ||
+      ) 
+      ||
       (
         github.event_name == 'workflow_dispatch'
       )
@@ -44,13 +41,11 @@ jobs:
         id: env
         run: |
           if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
-            # Ручной запуск → использовать выбранное окружение (uat|prod)
             echo "env=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
           else
-            # Автодеплой с dev → всегда на UAT
-            echo "env=uat" >> $GITHUB_OUTPUT
+            echo "env=dev" >> $GITHUB_OUTPUT
           fi
 
       - name: Deploy
         run: |
-          echo "Deploying to environment: ${{ steps.env.outputs.env }}"
+          echo "Deploying from dev brench to environment: ${{ steps.env.outputs.env }}"
